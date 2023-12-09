@@ -10,6 +10,8 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { Link as Clink } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 
@@ -63,7 +65,7 @@ export default function SignUp() {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} minW={'lg'} maxW={"lg"} py={12} px={6}>
+      <Stack spacing={8} mx={"auto"} minW={"lg"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Sign Up</Heading>
         </Stack>
@@ -100,6 +102,9 @@ export default function SignUp() {
               </Stack>
             </Stack>
           </form>
+          <Link to={"/login"}>
+            <Clink>Already registered? Login here...</Clink>
+          </Link>
         </Box>
       </Stack>
     </Flex>

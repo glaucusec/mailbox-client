@@ -15,10 +15,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Link as Clink } from "@chakra-ui/react";
+import { authActions } from "../context/Auth";
+import { useDispatch } from "react-redux";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 export default function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const toast = useToast();
   const [email, setEmail] = useState("");
@@ -49,6 +52,7 @@ export default function Login() {
         });
         console.log(response.data.idToken);
         localStorage.setItem("idToken", response.data.idToken);
+        dispatch(authActions.updateAuth(response.data.idToken));
         navigate("/home");
       }
     } catch (error) {
@@ -67,7 +71,7 @@ export default function Login() {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} minW={'lg'} maxW={"lg"} py={12} px={6}>
+      <Stack spacing={8} mx={"auto"} minW={"lg"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Sign in to your account</Heading>
         </Stack>
@@ -97,8 +101,8 @@ export default function Login() {
               </Stack>
             </Stack>
           </form>
-          <Link to={"/forgot-password"}>
-            <Clink>Forgot password ?</Clink>
+          <Link to={"/register"}>
+            <Clink>New User? Register here...</Clink>
           </Link>
         </Box>
       </Stack>
