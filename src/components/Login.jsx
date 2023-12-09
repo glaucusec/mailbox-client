@@ -50,9 +50,10 @@ export default function Login() {
           status: "success",
           title: "You signed up! Please login",
         });
-        console.log(response.data.idToken);
         localStorage.setItem("idToken", response.data.idToken);
-        dispatch(authActions.updateAuth(response.data.idToken));
+        dispatch(
+          authActions.updateAuth({ email: response.data.email, idToken: response.data.idToken })
+        );
         navigate("/home");
       }
     } catch (error) {

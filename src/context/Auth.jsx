@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialAuth = {
   idToken: "",
+  localId: "",
   email: "",
-  emailVerified: false,
   currPage: "compose",
 };
 
@@ -12,10 +12,12 @@ const authSlice = createSlice({
   initialState: initialAuth,
   reducers: {
     updateAuth(state, action) {
-      state.idToken = action.payload;
+      state.idToken = action.payload.idToken;
+      state.email = action.payload.email;
     },
     remoteAuth(state) {
       state.idToken = "";
+      state.localId = "";
       state.email = "";
       localStorage.removeItem("idToken");
     },
