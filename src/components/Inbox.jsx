@@ -16,10 +16,35 @@ import {
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { MdMarkEmailUnread, MdDelete } from "react-icons/md";
+import { FaCircle } from "react-icons/fa";
+import { mailActions } from "../context/Mails";
+import { authActions } from "../context/Auth";
+import { useDispatch } from "react-redux";
 
 export default function Inbox() {
+  const dispatch = useDispatch();
+  const mails = useSelector((state) => state.mails);
+  const inbox = mails.inbox;
   const auth = useSelector((state) => state.auth);
-  const [inbox, setInbox] = useState({});
+
+  const soloMailViewHandler = async (mailData, key) => {
+    // make the mail as viewed
+    try {
+      await axios.patch(
+        `https://mailbox-00-default-rtdb.firebaseio.com/${auth.email.replace(
+          /\./g,
+          ""
+        )}/mailbox/${key}.json`,
+        { seen: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    // store the solo mail data.
+    dispatch(mailActions.setSoloMail(mailData));
+    // change the page to mailview.
+    dispatch(authActions.updatePage("mailview"));
+  };
 
   useEffect(() => {
     (async function fetchInbox() {
@@ -29,7 +54,7 @@ export default function Inbox() {
           ""
         )}/mailbox.json`
       );
-      setInbox(response.data);
+      dispatch(mailActions.setInbox(response.data));
     })();
   }, []);
 
@@ -57,10 +82,8 @@ export default function Inbox() {
         <Tbody>
           {Object.keys(inbox).map((key) => {
             return (
-              <Tr>
-                <Td>
-                  <Icon as={MdMarkEmailUnread} />
-                </Td>
+              <Tr key={key} cursor={"pointer"} onClick={() => soloMailViewHandler(inbox[key], key)}>
+                <Td>{inbox[key].seen == false ? <Icon as={FaCircle} color={"blue"} /> : ""}</Td>
                 <Td>{inbox[key].emailSubject}</Td>
                 <Td>{inbox[key].senderEmail}</Td>
                 <Td>{inbox[key].date}</Td>

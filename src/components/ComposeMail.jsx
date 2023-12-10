@@ -38,9 +38,7 @@ export default function ComposeMail() {
             date: formattedDate + " " + formattedTime,
             emailDescription: emailDescriptionInHTML,
             emailSubject: subject,
-            id: "", // You might want to generate a unique ID here
             receiverEmail: receiverEmail, // Update this with the actual receiver's email
-            seen: "unseen",
             senderEmail: auth.email,
           }
         ),
@@ -53,15 +51,12 @@ export default function ComposeMail() {
             date: formattedDate + " " + formattedTime,
             emailDescription: emailDescriptionInHTML,
             emailSubject: subject,
-            id: "", // You might want to generate a unique ID here
             receiverEmail: receiverEmail, // Update this with the actual receiver's email
-            seen: "unseen",
+            seen: false,
             senderEmail: auth.email,
           }
         ),
       ]);
-      console.log(response1);
-      console.log(response2);
     } catch (error) {
       console.log(error);
     }
