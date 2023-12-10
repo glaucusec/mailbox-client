@@ -13,14 +13,11 @@ import {
   Center,
   Heading,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { MdMail, MdDelete } from "react-icons/md";
 
 export default function Inbox() {
-  const auth = useSelector((state) => state.auth);
   const sentbox = useSelector((state) => state.mails.sentbox);
-  console.log(sentbox);
 
   if (sentbox == null || !sentbox) {
     return (

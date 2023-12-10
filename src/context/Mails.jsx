@@ -32,6 +32,13 @@ const mailSlice = createSlice({
 
       state.inbox = newInbox;
     },
+    updateSentBox(state, action) {
+      const key = action.payload.key;
+      const value = action.payload.value;
+      const updatedSentbox = { ...state.sentbox };
+      updatedSentbox[key] = value;
+      state.sentbox = updatedSentbox;
+    },
   },
 });
 
