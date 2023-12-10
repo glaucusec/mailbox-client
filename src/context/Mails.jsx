@@ -19,6 +19,19 @@ const mailSlice = createSlice({
     setSoloMail(state, action) {
       state.soloMail = action.payload;
     },
+    deleteMail(state, action) {
+      const key = action.payload;
+      const updatedInbox = { ...state.inbox };
+
+      const newInbox = Object.keys(updatedInbox).reduce((acc, k) => {
+        if (k !== key) {
+          acc[k] = updatedInbox[k];
+        }
+        return acc;
+      }, {});
+
+      state.inbox = newInbox;
+    },
   },
 });
 
