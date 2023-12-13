@@ -1,12 +1,16 @@
 import React from "react";
-import { Flex, Box, Text, Center, List, ListItem, Icon } from "@chakra-ui/react";
+import { Flex, Box, Badge, Center, List, ListItem, Icon } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 
 import { MdAdd, MdInbox, MdMarkEmailRead } from "react-icons/md";
 import { authActions } from "../context/Auth";
-import { useDispatch } from "react-redux";
+import { mailActions } from "../context/Mails";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function NavBar() {
+  const mails = useSelector((state) => state.mails);
+  const inbox = mails.inbox;
+  const inboxMessageCount = Object.keys(inbox).length;
   const dispatch = useDispatch();
 
   const pageChangeHandler = (page) => {
@@ -39,6 +43,7 @@ export default function NavBar() {
               <Icon mr={"10px"} as={MdInbox} />
               Inbox
             </Button>
+            <Badge colorScheme="red">{inboxMessageCount} mails</Badge>
           </ListItem>
           <ListItem>
             <Button

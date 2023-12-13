@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { isEqual } from "lodash";
 import {
   TableContainer,
   Table,
@@ -83,6 +84,27 @@ export default function Inbox() {
       console.log(err);
     }
   }
+  useEffect(() => {
+    const fetchInbox = async () => {
+      try {
+        const response = await axios.get(
+          `https://mailbox-00-default-rtdb.firebaseio.com/${auth.email.replace(
+            /\./g,
+            ""
+          )}/mailbox.json`
+        );
+
+        if (!isEqual(response.data, inbox)) {
+          dispatch(mailActions.setInbox(response.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const intervalId = setInterval(fetchInbox, 2000);
+    return () => clearInterval(intervalId);
+  }, [inbox]);
 
   if (inbox == null || !inbox) {
     return (
@@ -106,6 +128,7 @@ export default function Inbox() {
           </Tr>
         </Thead>
         <Tbody>
+          {console.log("I am rerendering")}
           {Object.keys(inbox).map((key) => {
             return (
               <Tr key={key} cursor={"pointer"} onClick={(e) => handleTrClick(e, inbox[key], key)}>
