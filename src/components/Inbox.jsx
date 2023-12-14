@@ -128,7 +128,6 @@ export default function Inbox() {
           </Tr>
         </Thead>
         <Tbody>
-          {console.log("I am rerendering")}
           {Object.keys(inbox).map((key) => {
             return (
               <Tr key={key} cursor={"pointer"} onClick={(e) => handleTrClick(e, inbox[key], key)}>
